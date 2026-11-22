@@ -556,7 +556,7 @@ fieldset label:has(input:focus-visible) {
   z-index: 2;
   inset: 0;
   display: block;
-  background-image: url('/bomberman-turntable.png');
+  background-image: url('../../../../public/bomberman-turntable.png');
   background-repeat: no-repeat;
   background-position: 0 0;
   background-size: 400% 200%;
@@ -571,11 +571,11 @@ fieldset label:has(input:focus-visible) {
   background: var(--accent);
   clip-path: polygon(18% 46%, 82% 46%, 76% 68%, 62% 78%, 38% 78%, 24% 68%);
   content: '';
-  -webkit-mask-image: url('/bomberman-turntable.png');
+  -webkit-mask-image: url('../../../../public/bomberman-turntable.png');
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: 0 0;
   -webkit-mask-size: 400% 200%;
-  mask-image: url('/bomberman-turntable.png');
+  mask-image: url('../../../../public/bomberman-turntable.png');
   mask-repeat: no-repeat;
   mask-position: 0 0;
   mask-size: 400% 200%;

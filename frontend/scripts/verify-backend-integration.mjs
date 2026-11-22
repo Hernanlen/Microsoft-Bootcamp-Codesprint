@@ -147,7 +147,7 @@ async function register(name, email) {
   return request('/api/auth/register', 'POST', null, {
     nombre: name,
     correo: email,
-    password: requiredEnvironment('BOMBERMAN_TEST_PASSWORD'),
+    password: 'Bomberman123!',
   });
 }
 

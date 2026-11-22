@@ -20,31 +20,31 @@ interface PlayerVisualState {
 
 export const PLAYER_SPRITES: Record<Direction, PlayerSprites> = {
   down: {
-    idle: '/bomberman/up/first.png',
+    idle: 'bomberman/up/first.png',
     walking: [
-      '/bomberman/up/Imagen de ChatGPT 28 oct 2026, 09_00_29.png',
-      '/bomberman/up/Imagen de ChatGPT 28 oct 2026, 09_00_34.png',
+      'bomberman/up/Imagen de ChatGPT 28 oct 2026, 09_00_29.png',
+      'bomberman/up/Imagen de ChatGPT 28 oct 2026, 09_00_34.png',
     ],
   },
   left: {
-    idle: '/bomberman/left/first.png',
+    idle: 'bomberman/left/first.png',
     walking: [
-      '/bomberman/left/Imagen de ChatGPT 28 oct 2026, 08_59_07.png',
-      '/bomberman/left/Imagen de ChatGPT 28 oct 2026, 08_59_37.png',
+      'bomberman/left/Imagen de ChatGPT 28 oct 2026, 08_59_07.png',
+      'bomberman/left/Imagen de ChatGPT 28 oct 2026, 08_59_37.png',
     ],
   },
   right: {
-    idle: '/bomberman/right/first.png',
+    idle: 'bomberman/right/first.png',
     walking: [
-      '/bomberman/right/Imagen de ChatGPT 28 oct 2026, 08_58_59.png',
-      '/bomberman/right/Imagen de ChatGPT 28 oct 2026, 08_59_57.png',
+      'bomberman/right/Imagen de ChatGPT 28 oct 2026, 08_58_59.png',
+      'bomberman/right/Imagen de ChatGPT 28 oct 2026, 08_59_57.png',
     ],
   },
   up: {
-    idle: '/bomberman/down/first.png',
+    idle: 'bomberman/down/first.png',
     walking: [
-      '/bomberman/down/Imagen de ChatGPT 28 oct 2026, 08_58_41.png',
-      '/bomberman/down/Imagen de ChatGPT 28 oct 2026, 08_58_47.png',
+      'bomberman/down/Imagen de ChatGPT 28 oct 2026, 08_58_41.png',
+      'bomberman/down/Imagen de ChatGPT 28 oct 2026, 08_58_47.png',
     ],
   },
 };
@@ -358,12 +358,12 @@ export class CanvasRenderer {
       this.spriteImage(sprites.idle);
       for (const path of sprites.walking) this.spriteImage(path);
     }
-    this.spriteImage('/game-assets/items/bomb-normal.png');
+    this.spriteImage('game-assets/items/bomb-normal.png');
   }
 
   private drawBomb(context: CanvasRenderingContext2D, x: number, y: number): void {
     const rect = this.cellRect(x, y);
-    const image = this.spriteImage('/game-assets/items/bomb-normal.png');
+    const image = this.spriteImage('game-assets/items/bomb-normal.png');
     const pulse = 1 + Math.sin(Date.now() / 110) * 0.07;
     const size = rect.size * 0.72 * pulse;
     if (this.isImageReady(image)) {
