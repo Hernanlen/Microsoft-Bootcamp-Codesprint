@@ -1,0 +1,172 @@
+<main class="game-page">
+  <header>
+    <a routerLink="/menu">← Salir</a>
+    <h1>BOMBERMAN</h1>
+    <span class="match-status">EN PARTIDA</span>
+  </header>
+
+  @if (game.snapshot(); as snapshot) {
+    <div class="game-stage">
+      <section class="hud" aria-label="Estado del jugador">
+        <p class="hud-title">ESTADO</p>
+        <div class="metric metric--lives">
+          <small><span class="metric-icon" aria-hidden="true">♥</span> VIDAS</small
+          ><strong>{{ game.player()?.lives ?? 0 }}</strong>
+          <span>disponibles</span>
+        </div>
+        <div class="metric metric--rivals">
+          <small><span class="metric-icon" aria-hidden="true">⚔</span> RIVALES</small
+          ><strong>{{ game.activeOpponents() }}</strong>
+          <span>en juego</span>
+        </div>
+        <div class="metric metric--bombs">
+          <small><span class="metric-icon" aria-hidden="true">💥</span> BOMBAS</small
+          ><strong>{{ game.player()?.maxActiveBombs ?? 1 }}</strong>
+          <span>a la vez</span>
+        </div>
+        <div class="metric metric--range">
+          <small><span class="metric-icon" aria-hidden="true">⤢</span> ALCANCE</small
+          ><strong>{{ game.player()?.bombRange ?? 2 }}</strong>
+          <span>casillas</span>
+        </div>
+      </section>
+
+      <div class="arena-column">
+        <div
+          class="timer"
+          role="status"
+          aria-label="Estado de la partida"
+          [class.timer--low]="timeLow()"
+        >
+          <small><span class="timer-icon" aria-hidden="true">●</span> SERVIDOR</small>
+          <strong>{{ formatTime(timeLeft()) }}</strong>
+          <span>TIEMPO RESTANTE</span>
+        </div>
+
+        <section class="board-shell">
+          <canvas #board aria-label="Tablero de Bomberman" role="img"></canvas>
+          @if (game.connection() === 'connecting' || game.connection() === 'reconnecting') {
+            <div class="connection-card" role="status" aria-live="polite">
+              <span class="connection-loader" aria-hidden="true"></span>
+              <h2>
+                {{
+                  game.connection() === 'connecting' ? 'Preparando partida' : 'Recuperando partida'
+                }}
+              </h2>
+              <p>Espera un momento.</p>
+            </div>
+          }
+          @if (game.connection() === 'failed') {
+            <div class="connection-card" role="alert">
+              <h2>Se perdió la conexión</h2>
+              <p>Tu última partida está guardada.</p>
+              <div class="connection-actions">
+                <button type="button" (click)="game.reconnect()">Reintentar</button>
+                <a routerLink="/menu">Salir</a>
+              </div>
+            </div>
+          }
+          @if (game.finished()) {
+            <div class="result-card" role="status">
+              <p>PARTIDA TERMINADA</p>
+              <h2>{{ game.resultMessage() }}</h2>
+              @if (scores.gameScores().length > 0) {
+                <ul class="result-scores">
+                  @for (score of scores.gameScores(); track score.playerId) {
+                    <li>
+                      <span class="result-scores-name">
+                        {{ score.playerName }}{{ score.isWin ? ' 🏆' : '' }}
+                      </span>
+                      <span class="result-scores-points">{{ score.points }} pts</span>
+                    </li>
+                  }
+                </ul>
+              }
+              <div class="result-actions">
+                <button type="button" (click)="returnToRoom()">Volver a la sala</button>
+                <button type="button" (click)="returnToMenu()">Volver al menú</button>
+                <a routerLink="/ranking">Ver ranking</a>
+              </div>
+            </div>
+          }
+        </section>
+      </div>
+    </div>
+
+    <section class="controls" aria-label="Controles del juego">
+      <div class="dpad">
+        <button
+          class="up"
+          data-game-control
+          type="button"
+          aria-label="Mover arriba"
+          [disabled]="!game.controlsEnabled()"
+          (click)="move('up')"
+        >
+          ▲
+        </button>
+        <button
+          class="left"
+          data-game-control
+          type="button"
+          aria-label="Mover a la izquierda"
+          [disabled]="!game.controlsEnabled()"
+          (click)="move('left')"
+        >
+          ◀
+        </button>
+        <button
+          class="down"
+          data-game-control
+          type="button"
+          aria-label="Mover abajo"
+          [disabled]="!game.controlsEnabled()"
+          (click)="move('down')"
+        >
+          ▼
+        </button>
+        <button
+          class="right"
+          data-game-control
+          type="button"
+          aria-label="Mover a la derecha"
+          [disabled]="!game.controlsEnabled()"
+          (click)="move('right')"
+        >
+          ▶
+        </button>
+      </div>
+      <button
+        class="bomb-button"
+        data-game-control
+        type="button"
+        aria-label="Colocar bomba"
+        [disabled]="!game.controlsEnabled()"
+        (click)="placeBomb()"
+      >
+        <img src="/game-assets/items/bomb-normal.png" alt="" /> Bomba
+      </button>
+      <p>Flechas o WASD para moverte · Espacio para colocar una bomba</p>
+      @if (game.rejection(); as rejection) {
+        <p class="command-message" role="status">{{ rejection.message }}</p>
+      }
+    </section>
+  } @else {
+    @if (game.connection() === 'failed') {
+      <section class="game-loading" role="alert">
+        <h2>No se pudo cargar la partida</h2>
+        <p>Revisa la conexión con el servidor e inténtalo nuevamente.</p>
+        <div class="connection-actions">
+          <button type="button" (click)="game.reconnect()">Reintentar</button>
+          <a routerLink="/menu">Salir</a>
+        </div>
+      </section>
+    } @else {
+      <section class="game-loading" role="status" aria-live="polite">
+        <span class="connection-loader" aria-hidden="true"></span>
+        <h2>Preparando partida</h2>
+        <p>Conectando con el servidor y cargando el tablero.</p>
+      </section>
+    }
+  }
+</main>

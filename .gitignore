@@ -1,0 +1,32 @@
+# Node / Angular
+node_modules/
+.angular/
+dist/
+coverage/
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+public/runtime-config.js
+secrets.json
+*.local.json
+*.pfx
+
+# .NET
+[Bb]in/
+[Oo]bj/
+[Aa]rtifacts/
+**/publish/
+packages/
+*.nupkg
+*.snupkg
+[Tt]est[Rr]esult*/
+
+# IDE y SO
+.vs/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+*.cache

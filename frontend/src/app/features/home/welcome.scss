@@ -1,0 +1,778 @@
+@use '../../../styles/tokens' as *;
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.welcome {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    $purple-deep 0%,
+    $purple 30%,
+    $purple-soft 44%,
+    $pink-soft 58%,
+    $lilac-white 70%,
+    $lilac-white 100%
+  );
+}
+
+.welcome::before,
+.welcome::after {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+}
+
+// Patrón de cuadros del panel izquierdo.
+.welcome::before {
+  inset: 0 45% 0 0;
+  opacity: 0.12;
+  background-image: conic-gradient(
+    from 90deg,
+    transparent 25%,
+    rgba($pink, 0.78) 0 50%,
+    transparent 0 75%,
+    rgba($pink, 0.78) 0
+  );
+  background-size: 96px 96px;
+  mask-image: linear-gradient(90deg, #000 0%, transparent 90%);
+}
+
+// Partículas de luz.
+.welcome::after {
+  inset: 0 40% 0 0;
+  background-image:
+    radial-gradient(circle, rgba($pink-light, 0.9) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle, rgba($white, 0.7) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba($pink, 0.8) 0 2px, transparent 3px);
+  background-position:
+    12% 30%,
+    48% 62%,
+    78% 18%;
+  background-size:
+    260px 230px,
+    190px 170px,
+    340px 300px;
+  opacity: 0.65;
+  animation: sparkle 5s ease-in-out infinite;
+}
+
+.menu-panel,
+.game-preview {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+}
+
+.menu-panel {
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.4rem, 6vw, 6rem);
+  color: $white;
+}
+
+.menu-card {
+  width: min(100%, 36rem);
+}
+
+h1 {
+  margin: 0;
+  color: $pink-light;
+  font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+  font-size: clamp(3.6rem, 7vw, 7.4rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-shadow:
+    0 -1px 0 rgba($white, 0.7),
+    0.025em 0.025em 0 $pink-shadow,
+    0.05em 0.05em 0 $pink-shadow,
+    0.075em 0.075em 0 rgba($purple-deep, 0.85),
+    0.1em 0.14em 0.22em rgba($purple-deep, 0.6);
+}
+
+h1 span {
+  display: block;
+  color: $pink;
+}
+
+.subtitle {
+  max-width: 28rem;
+  margin: 1.4rem 0 1.9rem;
+  color: rgba($white, 0.85);
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  line-height: 1.5;
+}
+
+.game-menu {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.menu-option {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4.6rem;
+  padding: 0.85rem 1.25rem;
+  overflow: hidden;
+  border: 1px solid rgba($pink, 0.35);
+  border-radius: 0.9rem;
+  color: $white;
+  background:
+    linear-gradient(180deg, rgba($white, 0.1), rgba($white, 0.04)), rgba($purple-deep, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba($white, 0.12),
+    0 0.5rem 1.4rem rgba($purple-deep, 0.3);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+// Reflejo diagonal del cristal.
+.menu-option::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 52%,
+    rgba($white, 0.09) 52% 64%,
+    transparent 64% 70%,
+    rgba($white, 0.05) 70% 76%,
+    transparent 76%
+  );
+}
+
+.menu-option:hover,
+.menu-option:focus-visible {
+  border-color: $magenta;
+  transform: translateX(0.5rem);
+}
+
+.menu-option:focus-visible {
+  outline: 3px solid $white;
+  outline-offset: 3px;
+}
+
+.menu-option--main {
+  border: 2px solid $magenta;
+  background:
+    linear-gradient(180deg, rgba($white, 0.14), rgba($white, 0.05)), rgba($purple-glass, 0.75);
+  box-shadow:
+    0 0 0 1px rgba($pink, 0.4),
+    0 0 1.6rem rgba($magenta, 0.45),
+    inset 0 1px 0 rgba($white, 0.2);
+}
+
+.option-text {
+  font:
+    900 1.05rem 'Courier New',
+    monospace;
+  letter-spacing: 0.08em;
+}
+
+.menu-option small {
+  display: block;
+  margin-top: 0.15rem;
+  font:
+    400 0.82rem Arial,
+    Helvetica,
+    sans-serif;
+  letter-spacing: 0.01em;
+  color: rgba($white, 0.88);
+  text-transform: none;
+}
+
+.option-icon {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid rgba($white, 0.5);
+  border-radius: 0.6rem;
+  background: rgba($white, 0.08);
+}
+
+.option-icon svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: $white;
+}
+
+.option-icon [fill='none'] {
+  stroke: $white;
+}
+
+.game-preview {
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: clamp(2rem, 5vw, 5rem) clamp(1.2rem, 5vw, 5rem);
+}
+
+// Fragmentos rosas alrededor de la consola.
+.shard {
+  position: absolute;
+  width: 2.6rem;
+  height: 2.2rem;
+  background: linear-gradient(150deg, $pink-light, $pink-shadow);
+  clip-path: polygon(0 20%, 100% 0, 70% 100%);
+  filter: drop-shadow(0.3rem 0.4rem 0.3rem rgba($purple, 0.25));
+  animation: shard-float 6s ease-in-out infinite;
+}
+
+.shard--1 {
+  top: 8%;
+  left: 18%;
+}
+
+.shard--2 {
+  top: 6%;
+  right: 12%;
+  width: 2rem;
+  animation-delay: -2s;
+}
+
+.shard--3 {
+  bottom: 18%;
+  left: 8%;
+  width: 3rem;
+  animation-delay: -4s;
+}
+
+.shard--4 {
+  bottom: 9%;
+  left: 24%;
+  width: 1.8rem;
+  height: 1.6rem;
+  animation-delay: -1s;
+}
+
+.console {
+  width: min(100%, 27rem);
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(1.2rem 1.6rem 1.8rem rgba($purple, 0.35));
+  animation: console-float 5s ease-in-out infinite;
+}
+
+.console-shell {
+  fill: $console-body;
+  stroke: $purple-dark;
+  stroke-width: 3;
+}
+
+.console-edge {
+  fill: none;
+  stroke: rgba($lilac, 0.35);
+  stroke-width: 2;
+}
+
+.console-bezel {
+  fill: $purple-deep;
+}
+
+.console-screen {
+  fill: $purple-dark;
+}
+
+.console-board {
+  fill: $purple-glass;
+}
+
+.console-grid {
+  stroke: rgba($pink, 0.12);
+  stroke-width: 1;
+}
+
+.console-hud,
+.console-caption {
+  fill: $white;
+  font:
+    700 13px 'Courier New',
+    monospace;
+  letter-spacing: 0.1em;
+}
+
+.console-hud-label {
+  fill: $pink;
+}
+
+.console-wall rect {
+  fill: $purple-soft;
+  stroke: $lilac;
+  stroke-width: 2;
+}
+
+.console-brick rect {
+  fill: $pink-shadow;
+  stroke: $pink-light;
+  stroke-width: 1.5;
+}
+
+// Simulación decorativa: ciclo de 12 s sobre celdas de 40 × 40.
+$loop: 12s;
+
+.console-bomber {
+  transform: translate(80px, 80px);
+  animation: bomber-route $loop linear infinite;
+}
+
+.bomber-helmet,
+.bomber-body {
+  fill: $purple-soft;
+  stroke: $purple-deep;
+  stroke-width: 1.4;
+}
+
+.bomber-shine {
+  fill: rgba($white, 0.45);
+}
+
+.bomber-face {
+  fill: $pink-light;
+  stroke: $purple-deep;
+  stroke-width: 1;
+}
+
+.bomber-eye,
+.bomber-line {
+  fill: $purple-deep;
+}
+
+.bomber-pompom {
+  fill: $magenta;
+  stroke: $purple-deep;
+  stroke-width: 1;
+}
+
+.bomber-glove,
+.bomber-belt,
+.bomber-boot {
+  fill: $pink;
+  stroke: $purple-deep;
+  stroke-width: 1;
+}
+
+.bomber-belt {
+  stroke: none;
+}
+
+.bomber-buckle {
+  fill: $yellow;
+}
+
+.bomber-boot--l {
+  animation: bomber-step 0.5s steps(2) infinite;
+}
+
+.bomber-boot--r {
+  animation: bomber-step 0.5s steps(2) -0.25s infinite;
+}
+
+.console-ghost path {
+  fill: $pink;
+  stroke: $magenta;
+  stroke-width: 1.5;
+}
+
+.ghost-eye {
+  fill: $purple-dark;
+}
+
+.ghost-sprite {
+  animation: ghost-bob 1.2s ease-in-out infinite;
+}
+
+.console-ghost--a {
+  transform: translate(280px, 120px);
+  animation: ghost-a-route $loop linear infinite;
+}
+
+.console-ghost--b {
+  transform: translate(0, 200px);
+  animation: ghost-b-route $loop linear infinite;
+}
+
+.console-bomb,
+.console-blast {
+  opacity: 0;
+}
+
+.console-bomb--1 {
+  transform: translate(160px, 80px);
+  animation: bomb-1 $loop linear infinite;
+}
+
+.console-bomb--2 {
+  transform: translate(80px, 160px);
+  animation: bomb-2 $loop linear infinite;
+}
+
+.bomb-sprite {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bomb-tick 0.5s steps(2) infinite;
+}
+
+.bomb-body {
+  fill: $purple-deep;
+  stroke: $white;
+  stroke-width: 2;
+}
+
+.bomb-fuse {
+  stroke: $lilac;
+  stroke-width: 2;
+}
+
+.bomb-spark {
+  fill: $yellow;
+  animation: spark 0.4s steps(2) infinite;
+}
+
+.console-blast rect {
+  fill: $yellow;
+}
+
+.console-blast .blast-core {
+  fill: $white;
+}
+
+.console-blast--1 {
+  animation: blast-1 $loop linear infinite;
+}
+
+.console-blast--2 {
+  animation: blast-2 $loop linear infinite;
+}
+
+.console-dpad {
+  fill: $purple-deep;
+}
+
+.console-speaker circle {
+  fill: rgba($purple-deep, 0.7);
+}
+
+.console-button {
+  fill: $yellow;
+  stroke: $purple-dark;
+  stroke-width: 3;
+}
+
+@keyframes sparkle {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes shard-float {
+  50% {
+    transform: translateY(-0.8rem) rotate(12deg);
+  }
+}
+
+@keyframes console-float {
+  50% {
+    transform: translateY(-0.6rem);
+  }
+}
+
+@keyframes ghost-bob {
+  50% {
+    translate: 0 -3px;
+  }
+}
+
+@keyframes bomber-step {
+  50% {
+    translate: 0 -1.5px;
+  }
+}
+
+@keyframes bomb-tick {
+  50% {
+    scale: 1.12;
+  }
+}
+
+// Ruta: camina, pone la bomba 1, se cubre, pone la bomba 2, se cubre y vuelve al inicio.
+@keyframes bomber-route {
+  0% {
+    transform: translate(80px, 80px);
+  }
+  4.17% {
+    transform: translate(120px, 80px);
+  }
+  8.33% {
+    transform: translate(160px, 80px);
+  }
+  10.83% {
+    transform: translate(160px, 120px);
+  }
+  13.33%,
+  33.33% {
+    transform: translate(120px, 120px);
+  }
+  36.67% {
+    transform: translate(120px, 160px);
+  }
+  40%,
+  41.67% {
+    transform: translate(80px, 160px);
+  }
+  44.17% {
+    transform: translate(120px, 160px);
+  }
+  46.67%,
+  66.67% {
+    transform: translate(120px, 120px);
+  }
+  70.83% {
+    transform: translate(120px, 80px);
+  }
+  75%,
+  100% {
+    transform: translate(80px, 80px);
+  }
+}
+
+@keyframes bomb-1 {
+  0%,
+  8.2% {
+    opacity: 0;
+  }
+  8.33%,
+  24.9% {
+    opacity: 1;
+  }
+  25%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes bomb-2 {
+  0%,
+  41.5% {
+    opacity: 0;
+  }
+  41.67%,
+  58.2% {
+    opacity: 1;
+  }
+  58.33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blast-1 {
+  0%,
+  24.9% {
+    opacity: 0;
+  }
+  25%,
+  28% {
+    opacity: 1;
+  }
+  29.17%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blast-2 {
+  0%,
+  58.2% {
+    opacity: 0;
+  }
+  58.33%,
+  61.33% {
+    opacity: 1;
+  }
+  62.5%,
+  100% {
+    opacity: 0;
+  }
+}
+
+// El fantasma A entra en la fila de la bomba 1 y cae en la explosión.
+@keyframes ghost-a-route {
+  0% {
+    transform: translate(280px, 120px);
+    opacity: 1;
+  }
+  5% {
+    transform: translate(240px, 120px);
+  }
+  10% {
+    transform: translate(200px, 120px);
+  }
+  15%,
+  29% {
+    transform: translate(200px, 80px);
+  }
+  25% {
+    opacity: 1;
+  }
+  29%,
+  87.5% {
+    opacity: 0;
+  }
+  29.5% {
+    transform: translate(280px, 120px);
+  }
+  91.67%,
+  100% {
+    transform: translate(280px, 120px);
+    opacity: 1;
+  }
+}
+
+// El fantasma B sube y baja por la izquierda hasta cruzarse con la bomba 2.
+@keyframes ghost-b-route {
+  0% {
+    transform: translate(0, 200px);
+    opacity: 1;
+  }
+  12.5% {
+    transform: translate(0, 160px);
+  }
+  25% {
+    transform: translate(0, 120px);
+  }
+  37.5% {
+    transform: translate(0, 160px);
+  }
+  50%,
+  62.5% {
+    transform: translate(40px, 160px);
+  }
+  58.33% {
+    opacity: 1;
+  }
+  62.5%,
+  87.5% {
+    opacity: 0;
+  }
+  63% {
+    transform: translate(0, 200px);
+  }
+  91.67%,
+  100% {
+    transform: translate(0, 200px);
+    opacity: 1;
+  }
+}
+
+@keyframes spark {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 920px) {
+  .welcome {
+    grid-template-columns: 1fr;
+    background: linear-gradient(
+      180deg,
+      $purple-deep 0%,
+      $purple 42%,
+      $purple-soft 52%,
+      $pink-soft 62%,
+      $lilac-white 72%,
+      $lilac-white 100%
+    );
+  }
+
+  .welcome::before,
+  .welcome::after {
+    inset: 0 0 45% 0;
+    mask-image: linear-gradient(180deg, #000 0%, transparent 90%);
+  }
+
+  .menu-panel,
+  .game-preview {
+    min-height: auto;
+  }
+
+  .menu-panel {
+    padding-bottom: 4rem;
+  }
+
+  .menu-card {
+    margin: 2rem auto 0;
+  }
+
+  .game-preview {
+    padding-bottom: 4rem;
+  }
+
+  .console {
+    width: min(100%, 22rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .welcome {
+    background: linear-gradient(180deg, $purple-deep 0%, $purple 100%);
+  }
+
+  .welcome::before,
+  .welcome::after {
+    inset: 0;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 17vw, 4.6rem);
+  }
+
+  .menu-panel {
+    min-height: 100vh;
+    padding-inline: 1rem;
+  }
+
+  .menu-card {
+    margin-top: 0;
+  }
+
+  .game-preview {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome::after,
+  .shard,
+  .console,
+  .console :is(g, rect, circle) {
+    animation: none;
+  }
+
+  .menu-option {
+    transition: none;
+  }
+
+  .menu-option:hover,
+  .menu-option:focus-visible {
+    transform: none;
+  }
+}

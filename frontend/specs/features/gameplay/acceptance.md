@@ -1,0 +1,37 @@
+# **Aceptación GAME-01**
+
+- Antes del primer snapshot, la pantalla muestra un indicador de carga visible.
+- El Canvas se renderiza solo después de que Angular haya creado su elemento y exista un snapshot confirmado.
+- Entrar a la partida no produce errores por intentar leer `nativeElement` antes de tiempo.
+
+- Un snapshot válido se dibuja con todos sus elementos en celdas correctas.
+- El movimiento y la bomba envían comandos; la UI aplica el estado confirmado.
+- Mantener una dirección envía como máximo un movimiento cada 220 milisegundos y el backend rechaza comandos separados por menos de 180 milisegundos.
+- La animación lineal dura 220 milisegundos y cada sprite de caminata se mantiene durante 180 milisegundos.
+- Los pasos siguen alternándose al mantener una tecla o recibir movimientos consecutivos.
+- Cada jugador empieza con tres vidas y cada explosión recibida resta solo una.
+- El jugador queda eliminado al llegar a cero vidas.
+- Chocar con una pared, una bomba o el borde envía `CommandRejected` y no registra un fallo del Hub.
+- Las paredes y bloques se muestran según el snapshot, sin cálculo de colisiones en Canvas.
+- El jugador quieto muestra `first.png` de la última dirección y, al caminar, alterna las otras dos imágenes de esa dirección.
+- Las paredes tienen acabado de piedra y los bloques destructibles se distinguen como cajas de madera con volumen.
+- Los personajes se muestran más grandes sin cambiar su posición lógica ni sus colisiones.
+- La partida local muestra al jugador y tres rivales en posiciones distintas.
+- Las bombas clásicas, las bombas espaciales y los poderes usan una imagen normal y otra más grande con brillo.
+- Una bomba cambia al momento brillante antes de explotar y los poderes alternan ambos momentos mientras están disponibles.
+- Una bomba puede colocarse bajo su dueño, pero no en una celda ocupada por otro jugador vivo.
+- Al entrar en la celda de un poder, el jugador lo recoge y el HUD muestra `Bomba espacial`.
+- Al bajar se muestra el frente del personaje y al subir se muestra su espalda.
+- La base de color del personaje se dibuja debajo de sus pies.
+- Un poder aparece durante ocho segundos en una celda libre aleatoria, sin mostrar una barra en el mapa.
+- Al terminar su tiempo, recogerlo o recibir una explosión, el poder desaparece y vuelve después en otra celda libre.
+- Al recogerlo, el poder dura ocho segundos y el borde del recuadro PODER muestra cuánto tiempo queda.
+- Al terminar el tiempo equipado, el HUD vuelve a mostrar `Sin poder`.
+- El HUD y el resultado usan iconos para vidas, rivales, bombas, poder, tiempo y puntos.
+- En el resultado, los iconos SVG de puntos, vidas y tiempo aparecen alineados junto a cada título y mantienen el mismo tamaño visual.
+- La partida terminada muestra ganador o derrota confirmados y detiene entradas.
+- La partida terminada ofrece Volver a la sala, restaura su estado de espera y conserva sus participantes.
+- Una pantalla pequeña mantiene tablero y controles comprensibles.
+- En escritorio, vidas, rivales, bombas y poder aparecen apilados a la izquierda del tablero.
+- El temporizador aparece sobre el Canvas y el campo de poder muestra su nombre, segundos y progreso cuando está equipado.
+- En móvil, el temporizador, el tablero y las métricas se reordenan sin desplazamiento horizontal.

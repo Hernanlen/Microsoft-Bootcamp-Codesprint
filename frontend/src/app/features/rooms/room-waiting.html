@@ -1,0 +1,72 @@
+<main class="rooms-page waiting-page">
+  <header class="rooms-header">
+    <a class="back-link" routerLink="/salas">← Salas</a>
+    <span class="waiting-label">SALA DE ESPERA</span>
+    <a class="leave-button" routerLink="/salas">Volver</a>
+  </header>
+
+  @if (rooms.error()) {
+    <div class="page-error" role="alert">{{ rooms.error() }}</div>
+  }
+
+  @if (rooms.currentRoom(); as room) {
+    <section class="waiting-heading">
+      <h1>{{ room.name }}</h1>
+      <span>{{ room.participants.length }} de {{ room.maxPlayers }} jugadores</span>
+    </section>
+
+    <section class="room-code" aria-label="Código de invitación">
+      <span>Código para invitar</span>
+      <strong>{{ room.code }}</strong>
+      <small>Compártelo con los demás jugadores.</small>
+    </section>
+
+    <section class="players-grid" aria-label="Jugadores en la sala">
+      @for (slot of slots(); track slot) {
+        @if (room.participants[slot]; as player) {
+          <article class="player-slot player-slot--filled">
+            <div>{{ player.displayName.charAt(0).toUpperCase() }}</div>
+            <h2>{{ player.displayName }}</h2>
+            @if (player.id === room.hostPlayerId) {
+              <p>Anfitrión</p>
+            } @else {
+              <p>{{ player.isReady ? 'Listo' : 'No listo' }}</p>
+            }
+          </article>
+        } @else {
+          <article class="player-slot player-slot--empty">
+            <div>+</div>
+            <h2>Esperando</h2>
+            <p>Lugar disponible</p>
+          </article>
+        }
+      }
+    </section>
+
+    <section class="start-area">
+      <div class="waiting-actions">
+        @if (rooms.isHost()) {
+          <button
+            class="primary-button start-button"
+            type="button"
+            (click)="start()"
+            [disabled]="!rooms.canStart() || rooms.isLoading()"
+          >
+            {{ rooms.canStart() ? 'Iniciar partida' : 'Esperando jugadores listos' }}
+          </button>
+        } @else {
+          <button
+            class="primary-button start-button"
+            type="button"
+            (click)="toggleReady()"
+            [disabled]="rooms.isLoading()"
+          >
+            {{ rooms.currentParticipant()?.isReady ? 'No estoy listo' : 'Estoy listo' }}
+          </button>
+        }
+      </div>
+    </section>
+  } @else if (rooms.isLoading()) {
+    <div class="loading-state">Entrando a la sala…</div>
+  }
+</main>

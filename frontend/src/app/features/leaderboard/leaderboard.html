@@ -1,0 +1,54 @@
+<main class="ranking-page">
+  <header>
+    <a routerLink="/menu">← Menú</a>
+    <h1>RANKING</h1>
+    <span>SERVIDOR</span>
+  </header>
+
+  <section class="ranking-heading">
+    <p>MEJORES PUNTUACIONES</p>
+    <h2>Salón de campeones</h2>
+  </section>
+
+  @if (scores.isLoading()) {
+    <section class="ranking-state" role="status">
+      <span class="connection-loader" aria-hidden="true"></span>
+      <h2>Cargando ranking</h2>
+      <p>Consultando las mejores puntuaciones del servidor.</p>
+    </section>
+  } @else if (scores.error(); as error) {
+    <section class="ranking-state" role="alert">
+      <span aria-hidden="true">★</span>
+      <h2>Ranking no disponible</h2>
+      <p>{{ error }}</p>
+      <button type="button" (click)="scores.loadLeaderboard()">Reintentar</button>
+      <a routerLink="/salas">Volver a las salas</a>
+    </section>
+  } @else if (scores.leaderboard().length === 0) {
+    <section class="ranking-state" role="status">
+      <span aria-hidden="true">★</span>
+      <h2>Aún no hay campeones</h2>
+      <p>Juega una partida para aparecer en el ranking.</p>
+      <a routerLink="/salas">Ir a las salas</a>
+    </section>
+  } @else {
+    <section class="ranking-table" aria-label="Tabla de posiciones">
+      <div class="ranking-row ranking-row--head">
+        <span>#</span>
+        <span>JUGADOR</span>
+        <span>PTS</span>
+        <span>🏆</span>
+        <span>PARTIDAS</span>
+      </div>
+      @for (entry of scores.leaderboard(); track entry.playerId) {
+        <div class="ranking-row" [class.ranking-row--top]="entry.rank <= 3">
+          <span class="ranking-rank">{{ entry.rank }}</span>
+          <span class="ranking-name">{{ entry.name }}</span>
+          <span class="ranking-points">{{ entry.points }}</span>
+          <span class="ranking-wins">{{ entry.wins }}</span>
+          <span class="ranking-games">{{ entry.gamesPlayed }}</span>
+        </div>
+      }
+    </section>
+  }
+</main>
