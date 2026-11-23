@@ -4,6 +4,17 @@ Juego **Bomberman multijugador online** desarrollado durante el **Codesprint del
 
 > Este repositorio reúne el **frontend y el backend** del proyecto, incluidas las carpetas de práctica de las sesiones del bootcamp. El código es el estado final de la demo (noviembre de 2026).
 
+## Demo jugable
+
+**https://hernanlen.github.io/Microsoft-Bootcamp-Codesprint/**
+
+Versión jugable desplegada con GitHub Pages. Usa adaptadores locales (simulador + mocks) en lugar de la API, así que no necesita backend ni PostgreSQL: incluye bombas, cajas destructibles, power-ups, tres rivales controlados por IA, temporizador, puntajes y ranking.
+
+- Usuario de prueba: `demo@bomberman.local`
+- Contraseña: `demo1234`
+
+El código de esta versión está en la rama `demo` y el sitio publicado en la rama `gh-pages`. La versión full stack con la API real permanece en `main`.
+
 ## Características
 
 - **Autenticación** con JWT: registro, inicio de sesión y sesión persistida en el navegador.
